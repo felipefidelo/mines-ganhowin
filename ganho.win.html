@@ -1,0 +1,197 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Game Interface
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .darken {
+    background-color: #4a5568;
+   }
+   .bomb-icon, .new-icon, .diamond-icon {
+    width: 24px;
+    height: 24px;
+   }
+   .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: none;
+    z-index: 1000;
+    text-align: center;
+   }
+   .modal.visible {
+    display: block;
+   }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="flex justify-between items-center p-4 bg-gray-800">
+    <div class="flex items-center">
+      <div class="bg-green-500 p-2 rounded-full">
+        <img alt="Logo" class="w-8 h-8" height="40" src="https://ganho.win/img/logo.25789abb.png" width="40"/>
+      </div>
+      <span class="ml-2 text-lg font-bold">GANHO WIN</span>
+    </div>
+    <div class="flex items-center">
+      <span class="mr-2" id="balance">
+        R$ 50.00
+    </span>
+    
+      <img src="./images/transferir.png" alt="Transfer Icon" class="new-icon mx-2"/>
+      <div class="bg-gray-700 p-2 rounded-full">
+        <img alt="User Avatar" class="w-8 h-8 rounded-full" height="40" src="https://ganho.win/ava/ava14.png" width="40"/>
+      </div>
+    </div>
+  </div>
+  <div class="p-4">
+    <div class="bg-gray-800 p-4 rounded-lg">
+      <div class="text-lg font-bold mb-4">
+       Mines
+      </div>
+      <div class="grid grid-cols-5 gap-4" id="minefield">
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+        <div class="bg-blue-500 p-4 rounded-lg flex items-center justify-center cursor-pointer" onclick="hit(this)">?</div>
+      </div>
+      <div class="flex justify-between items-center mt-4">
+        <div class="flex items-center">
+          <div class="bg-green-500 p-2 rounded-full">
+            <i class="fas fa-gem"></i>
+          </div>
+          <span class="ml-2">MASONRY</span>
+          <span class="ml-2" id="hits">0</span>
+        </div>
+        <div class="flex items-center">
+          <div class="bg-gray-700 p-2 rounded-full">
+            <img src="https://ganho.win/img/zd.756cda73.png" alt="Bomb Icon" class="bomb-icon"/>
+          </div>
+          <span class="ml-2">MINAS</span>
+          <span class="ml-2">4</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-center mt-4">
+        <div class="flex space-x-2">
+          <button class="bg-gray-700 p-2 rounded-lg">MIN</button>
+          <button class="bg-gray-700 p-2 rounded-lg">MAX</button>
+        </div>
+        <div class="text-center">
+          <div>R$ 5</div>
+          <div>R$ 45,00</div>
+        </div>
+        <button class="bg-red-500 p-2 rounded-lg" id="betButton" onclick="startGame()">Aposta</button>
+      </div>
+      <div class="mt-4 text-center" id="withdrawMessage"></div>
+    </div>
+  </div>
+
+  <!-- Modal for win notification -->
+  <div class="modal" id="winModal">
+    <h2>Você ganhou!</h2>
+    <p>R$ 20.00</p>
+  </div>
+
+  <script>
+  let hits = 0;
+let gameStarted = false;
+let balance = 50; // Saldo inicial ajustado para R$ 50
+
+function startGame() {
+    gameStarted = true;
+    document.getElementById('betButton').classList.add('darken');
+    document.getElementById('betButton').innerText = 'Sacar'; // Troca para "Sacar"
+    document.getElementById('betButton').style.backgroundColor = 'gray'; // Fundo cinza
+}
+
+function hit(element) {
+    if (!gameStarted) return;
+    hits++;
+    document.getElementById('hits').innerText = hits;
+    element.classList.add('bg-green-500');
+    element.innerHTML = `<img src="https://ganho.win/mines/zs.png" alt="Diamond" style="width: 40px; height: 40px;">`; // Exibe a imagem de diamante
+    document.getElementById('betButton').innerText = 'Saque';
+    document.getElementById('betButton').style.backgroundColor = 'green'; // Fundo verde
+    document.getElementById('betButton').style.color = 'white'; // Letra branca
+    document.getElementById('betButton').onclick = withdraw; // Muda a função para sacar
+}
+
+function withdraw() {
+    balance += 20; // Adiciona 20 ao saldo
+    document.getElementById('balance').innerText = `R$ ${balance.toFixed(2)}`;
+    showDialog();
+    resetGame();
+}
+
+function showDialog() {
+    const dialog = document.createElement('div');
+    dialog.innerHTML = `Você ganhou!<br><span style="color: #00FF00; font-weight: 800;">R$ 20.00</span>`; // Valor em verde original e extra bold
+    dialog.style.position = 'fixed';
+    dialog.style.top = '50%';
+    dialog.style.left = '50%';
+    dialog.style.transform = 'translate(-50%, -50%)';
+    dialog.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // Fundo preto
+    dialog.style.backdropFilter = 'blur(10px)';
+    dialog.style.padding = '20px';
+    dialog.style.borderRadius = '10px';
+    dialog.style.textAlign = 'center';
+    dialog.style.fontSize = '20px';
+    dialog.style.color = 'white'; // Texto branco
+    document.body.appendChild(dialog);
+
+    setTimeout(() => {
+        dialog.remove();
+    }, 2000);
+}
+
+
+
+
+
+
+function resetGame() {
+    hits = 0;
+    gameStarted = false;
+    document.getElementById('hits').innerText = hits;
+    document.getElementById('betButton').innerText = 'Aposta'; // Volta para "Aposta"
+    document.getElementById('betButton').style.backgroundColor = 'red'; // Fundo vermelho
+    document.getElementById('betButton').classList.remove('darken');
+    document.getElementById('betButton').onclick = startGame; // Muda a função de volta para apostar
+    document.querySelectorAll('#minefield > div').forEach(block => {
+        block.classList.remove('bg-green-500');
+        block.innerText = '?';
+    });
+}
+
+  </script>
+</body>
+</html>
